@@ -1,0 +1,25 @@
+.productInput[type=text] {
+    padding: 12px 20px;
+    box-sizing: border-box;
+    margin-bottom: 6px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+.btn {
+    color: black;
+    font-weight: bold;
+    background-color: rgb(92, 175, 92);
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+.addProductTitle {
+    font-weight: bold;
+    font-size: large;
+    text-align: center;
+    margin-bottom: 20px;
+}
