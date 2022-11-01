@@ -1,4 +1,4 @@
-require('dotenv').config({path: '../.env'});
+require('dotenv').config({path: '../client/.env'});
 import router from './routes'
 import express from 'express';
 const cors = require('cors')

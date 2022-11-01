@@ -85,7 +85,7 @@ const AddProduct: React.FC = () => {
                     value={product.nome} required/>
                             <input className="productInput"  type="text" title="tipo" placeholder="Tipo" onChange={handleChange}
                     value={product.tipo} required/>
-                            <input className="productInput" type="text" title="cor" placeholder="Tor" onChange={handleChange}
+                            <input className="productInput" type="text" title="cor" placeholder="Cor" onChange={handleChange}
                     value={product.cor}/>
                             <input className="productInput" type="text" title="nserie" placeholder="Numero de serie" onChange={handleChange}
                     value={product.nserie}/>

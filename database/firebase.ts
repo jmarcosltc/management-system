@@ -1,4 +1,4 @@
-require('dotenv').config({path: '../.env'});
+require('dotenv').config({path: '../client/.env'});
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -121,9 +121,11 @@ export const editarProduto = (produto: Produto, id: string) => {
 };
 
 // Remover um produto
-export const removerProduto = (id: string) => {
-  var values = get((ref(rdb, `produtos/`)))
+export const removerProduto = async (id: string, email: string, value: number) => {
+
+  await get((ref(rdb, `produtos/`)))
     .then((snapshot) => {
+
       if (snapshot.exists()) {
         const objects: any[] = (Object.entries(snapshot.val()))
 
@@ -140,7 +142,18 @@ export const removerProduto = (id: string) => {
     console.error(error);
   });
 
-  
+
+  let valorTotal: number = 0;
+  const q = query(userRef, where('email', '==', email))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach((doc) => {
+    valorTotal += doc.data().compras
+  })
+
+  await updateDoc(doc(fdb, "users", "kGJcATDyOOcNX2IpcDn4"), {
+    compras: valorTotal - value
+  });
+
 
   return true;
 };

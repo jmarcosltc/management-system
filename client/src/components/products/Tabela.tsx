@@ -13,6 +13,7 @@ const Tabela: React.FC = () => {
 
     const [data, setData] = useState<any[]>([]);
 
+
     useEffect(() => {
         fetch("http://localhost:3060/produtos",
             {
@@ -45,22 +46,28 @@ const Tabela: React.FC = () => {
 
     const handleRemoveProduct = async (event: any, selectedRows: any) => {
 
+        const decoded = jwtDecode<any>(cookies.access_token)
+        const email = decoded.email
+
         for(let i = 0; i < selectedRows.length; i++) {
-        await fetch(`http://localhost:3060/produtos/${selectedRows[i].id}`,
-            {
-                method: "delete",
-                // mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                credentials: 'include',
-            })
-            .then((res) => {
-                if(res.status != 403 || 401) {
-                    
-                } else {
-                    console.log('err')
-                }
-            })
-        }
+
+            const precoEmNumero: number = selectedRows[i].preco
+
+            await fetch(`http://localhost:3060/produtos?id=${selectedRows[i].id}&email=${email}&valor=${precoEmNumero}`,
+                {
+                    method: "delete",
+                    // mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: 'include',
+                })
+                .then((res) => {
+                    if(res.status != 403 || 401) {
+                        
+                    } else {
+                        console.log('err')
+                    }
+                })
+            }
         window.location.reload();
     }
 

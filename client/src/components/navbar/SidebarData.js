@@ -30,7 +30,7 @@ export const SidebarData = [
   },
   {
     title: 'Sair',
-    path: '/sair',
+    path: '/logout',
     icon: <AiIcons.AiOutlineVerticalAlignTop />,
     cName: 'nav-text'
   },

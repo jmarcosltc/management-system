@@ -1,4 +1,4 @@
-require('dotenv').config({path: '../.env'});
+require('dotenv').config({path: '../client/.env'});
 import express, { Request, Response, NextFunction, Express} from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 import { json } from 'stream/consumers';
@@ -72,11 +72,6 @@ router.get('/protected', authenticateToken, (req: Request, res: Response) => {
     return res.status(200).send()
 })
 
-// Route to check the products
-router.get('/produtos/:id', authenticateToken, (req, res) => {
-    res.json('teste').send()
-})
-
 // Route to create a product
 router.post('/produtos', authenticateToken, (req: Request, res: Response) => {
     const { nome, nserie, imei, cor, marca, tipo } = req.body
@@ -121,9 +116,13 @@ router.put('/produtos/:id', authenticateToken, (req: Request, res: Response) => 
 })
 
 // Route to delete a product
-router.delete('/produtos/:id', authenticateToken, (req: Request, res: Response) => {
+router.delete('/produtos', authenticateToken, (req: Request, res: Response) => {
 
-    if(removerProduto(req.params.id) != undefined) {
+    const valor: number = Number(req.query.valor);
+    const id: string = String(req.query.id);
+    const email: string = String(req.query.email);
+
+    if(removerProduto(id, email, valor) != undefined) {
         res.status(200).send()
     } else {
         res.status(403).send()
@@ -135,10 +134,24 @@ router.get('/produtos', authenticateToken, async (req: Request, res: Response) =
 
     const products: any = await listarProdutos();
 
+    const exemple: any = 
+    [
+        {
+            cor: 'Exemplo',
+            id: '0000-0000',
+            imei: '',
+            marca: 'Exemplo',
+            nome: 'Exemplo',
+            nserie: '',
+            preco: 0,
+            tipo: 'Exemplo'
+          }
+    ]
+
     if(products != undefined) {
         res.status(200).send(products)
     } else {
-        res.status(403)
+        res.status(200).send(exemple)
     }
 })
 
@@ -191,7 +204,7 @@ router.get('/compra', authenticateToken, (req: Request, res: Response) => {
 })
 
 // Create user in the system
-router.post('/user', async (req: any, res: { send: (arg0: string) => void; }) => {
+router.post('/signin', async (req: any, res: { send: (arg0: string) => void; }) => {
         const newUser = [{
             id: uuidv4(),
             user: req.body.user,

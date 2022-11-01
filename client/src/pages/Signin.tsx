@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Signin: React.FC = () => {
+    const navigate = useNavigate()
     
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
@@ -10,10 +12,6 @@ const Signin: React.FC = () => {
         console.log('handleSubmit ran');
         event.preventDefault(); // 👈️ prevent page refresh
 
-        // 👇️ access input values here
-        console.log('firstName 👉️', userName);
-        console.log('lastName 👉️', email);
-
         // 👇️ clear all input values in the form
         let user = {
             user: userName,
@@ -21,14 +19,19 @@ const Signin: React.FC = () => {
             password: password
         }
 
-        fetch("http://localhost:3060/user",
+        fetch("http://localhost:3060/signin",
         {
             method: "post",
-            mode: "no-cors",
+            // mode: "no-cors",
             headers: { "Content-Type": "application/json" },
+            credentials: 'include',
             body: JSON.stringify(user)
         }).then((res) => {
-            //console.log(res.body)
+            if(res.status === 200) {
+                navigate('/')
+            } else if(res.status === 401) {
+                // mostrar uma mensagem de login inválido
+            }
         })
 
     };
